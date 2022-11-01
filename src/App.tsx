@@ -49,6 +49,13 @@ function App() {
     const Button3Foo = (sub: string) => {
         console.log(sub)
     }
+    let [a, setA] = useState(1) ;
+    const onClickHandler = () => {
+        setA(++a)
+    }
+    const onClickReset = () => {
+        setA(0)
+    }
     return (
         <div className='App'>
             <NewComponent students={students} topCars={topCars}/>
@@ -63,6 +70,9 @@ function App() {
             <Button name={'MyYouTubeChannel-1'} callBack={() => Button1Foo('I\' am Vasya', 21)}/>
             <Button name={'MyYouTubeChannel-2'} callBack={() => Button2Foo('I\' am Ivan')}/>
             <Button name={'MyYouTubeChannel-3'} callBack={() => Button3Foo('I\' am stupid button')}/>
+            <h1>{a}</h1>
+            <button onClick={onClickHandler}>num</button>
+            <button onClick={onClickReset}>0</button>
         </div>
     );
 }
