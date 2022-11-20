@@ -3,6 +3,9 @@ import './App.css';
 import {NewComponent} from "./tasks/map/NewComponent";
 import {Button} from "./tasks/button/Button";
 import {NewComponentTwo} from "./tasks/filter/NewComponentTwo";
+import {FullInput} from "./tasks/input/FullInput";
+import {Input} from "./tasks/input/Input";
+import {ButtonPlus} from "./tasks/input/ButtonPlus";
 
 export type FilterType = 'all' | 'rube' | 'doll';
 
@@ -26,23 +29,6 @@ function App() {
         {manufacturer: 'Mercedes', model: 'e63s'},
         {manufacturer: 'Audi', model: 'rs6'}
     ]
-    // const myFirstSubscriber = (event: MouseEvent<HTMLButtonElement>) => {
-    //     console.log('Hello Im Vasya')
-    // }
-    // const mySecondSubscriber = (event: MouseEvent<HTMLButtonElement>) => {
-    //     console.log('Hello Im Ivan')
-    // }
-
-    // const onClickHandler=(name:string)=>{
-    //     console.log(name)
-    // }
-
-    // const foo1 = (event: MouseEvent<HTMLButtonElement>) => {
-    //     console.log(100200)
-    // }
-    // const foo2 = (num: number) => {
-    //     console.log(num)
-    // }
     const Button1Foo = (sub: string, age: number) => {
         console.log(sub, age)
     }
@@ -69,7 +55,15 @@ function App() {
         {banknots: 'dol', nominal: 50, number: ' x1234567890'},
         {banknots: 'rub', nominal: 50, number: ' v1234567890'},
     ])
-
+    let [message, setMessage] = useState([
+            {message: 'message1'},
+            {message: 'message2'},
+            {message: 'message3'},
+            {message: 'message4'},
+            {message: 'message5'}
+        ]
+    )
+    let [title, setTitle] = useState('')
     const [filter, setFilter] = useState<FilterType>('all')
     let currentMoney = money;
     if (filter === 'rube') {
@@ -78,20 +72,20 @@ function App() {
     if (filter === 'doll') {
         currentMoney = money.filter((filteredMoney) => filteredMoney.banknots === 'dol');
     }
-     const onClickFilterHandler = (nameButton: FilterType) => {
+    const onClickFilterHandler = (nameButton: FilterType) => {
         setFilter(nameButton)
+    }
+    const addMessage = (title: string) => {
+        let newMessage = {message: title};
+        setMessage([newMessage, ...message])
+    }
+    const callBackButton = () => {
+        addMessage(title)
+        setTitle('')
     }
     return (
         <div className='App'>
             <NewComponent students={students} topCars={topCars}/>
-            {/*<button onClick={(event) => {console.log('Hello')}}>MyYouTubeChannel-1</button>*/}
-            {/*<button onClick={(event)=>onClickHandler('I\'m Vasya')}>MyYouTubeChannel-1</button>*/}
-            {/*<button onClick={(event)=>onClickHandler('I\'m Ivan')}>MyYouTubeChannel-2</button>*/}
-            {/*<button onClick={()=>onClickHandler('some info')}>MyYouTubeChannel-3</button>*/}
-            {/*<button onClick={foo1}>1</button>*/}
-            {/*<button onClick={(event) => foo2(100200)}>2</button>*/}
-            {/*<button>MyYouTubeChannel-1</button>*/}
-            {/*<button>MyYouTubeChannel-2</button>*/}
             <Button name={'MyYouTubeChannel-1'} callBack={() => Button1Foo('I\' am Vasya', 21)}/>
             <Button name={'MyYouTubeChannel-2'} callBack={() => Button2Foo('I\' am Ivan')}/>
             <Button name={'MyYouTubeChannel-3'} callBack={() => Button3Foo('I\' am stupid button')}/>
@@ -99,20 +93,14 @@ function App() {
             <button onClick={onClickHandler}>num</button>
             <button onClick={onClickReset}>0</button>
             <NewComponentTwo currentMoney={currentMoney} onClickFilterHandler={onClickFilterHandler}/>
-            {/*<ul>*/}
-            {/*    {currentMoney.map((objFromMoneyArr, index) => {*/}
-            {/*        return (*/}
-            {/*            <li key={index}>*/}
-            {/*                <span>{objFromMoneyArr.banknots}</span>*/}
-            {/*                <span>{objFromMoneyArr.nominal}</span>*/}
-            {/*                <span>{objFromMoneyArr.number}</span>*/}
-            {/*            </li>*/}
-            {/*        )*/}
-            {/*    })}*/}
-            {/*</ul>*/}
-            {/*<button onClick={() => onClickFilterHandler('all')}>all</button>*/}
-            {/*<button onClick={() => onClickFilterHandler('rube')}>rub</button>*/}
-            {/*<button onClick={() => onClickFilterHandler('doll')}>dol</button>*/}
+            {/*<FullInput addMessage={addMessage}/>*/}
+            <Input setTitle={setTitle} title={title}/>
+            <ButtonPlus name={'+'} callBack={callBackButton}/>
+            {message.map((el, index) => {
+                return (
+                    <div key={index}>{el.message}</div>
+                )
+            })}
         </div>
     );
 }
